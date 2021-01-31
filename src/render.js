@@ -3,6 +3,8 @@ var timerActive = "";
 var pauseState = new Boolean(0);
 var start;
 var pauseTime = 0;
+var unpauseTime = 0;
+var pauseDiff = 0;
 var delta;
 var time;
 var seconds;
@@ -47,6 +49,7 @@ function checkKeyPressed(evt) {
         pauseState = 1;
       }
       else if(pauseState == 1){
+        unpauseTime = Date.now();
         pauseState = 0;
       }
       timerActive = "pause";
@@ -70,7 +73,7 @@ window.setInterval( function(){ //Timer Tracker
   switch (timerActive) {
     case "active":
       document.getElementById("timer").classList.remove('blink');
-      delta = Date.now() - start; // milliseconds elapsed since start
+      delta = (Date.now() - (start+pauseDiff)); // milliseconds elapsed since start
       time = (Math.floor(delta / 1000));
       seconds = time % 60 < 10 ? "0"+time % 60: time % 60; // in seconds
       minutes = Math.floor(time / 60)< 10 ? "0"+Math.floor(time / 60): Math.floor(time / 60);
@@ -79,10 +82,10 @@ window.setInterval( function(){ //Timer Tracker
       break;
     case "pause":
       if(pauseState == 0){//unpaused state
+        pauseDiff = unpauseTime-pauseTime;
         timerActive = "active";
       }
       else if(pauseState == 1){//paused state
-        console.log( "paused");
         document.getElementById("timer").classList.add('blink');
       }
       break;
