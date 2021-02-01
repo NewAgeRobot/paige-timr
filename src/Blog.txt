@@ -1,0 +1,97 @@
+//List of keycodes
+https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
+
+//Project description
+We both got Timeular devices as we both wanted to track our study and free time expenditure, as we were diagnosed with ADHD and wanted to have the data to review if we were being efficient or getting easily distracted. We got Timeular premium accounts as well and it worked well but there were issues with connecting to the device, and it essentially HAVING to be connected, but only connected to one device at a time was cumbersome. It also had some features that were premium only, and others that we wish worked differently. So we decided to make our own.
+
+//What tech and why?
+We really liked the idea of it being in a old school Walkman form factor and I knew you could get small screens that you could use as the interface for it.
+Neither of us were really familiar with the technology we would need. I had worked with a raspberry pi years ago in college so knew it could be used as a small computer. I figured that with what we knew it would be easiest to make a desktop application that could run on the raspberry pi using a custom keyboard as the buttons.
+I googled about and found the Hyperpixel screen that can connect right into the raspberry pi, so that was both of those settled as that would be screen and computer. The Teensy board is also used a ton in custom keyboards and was small enough to fit in the desired form, so that was that chosen as well.
+We didn't know any programming languages to make desktop applications so were going to go with Python, but then I found Electron and I had known a bit of javascript so figured that was the safest bet to get a working prototype going.
+
+
+//Build log
+The first step in the build was just trying to get the buttons working on the Teensy. We had an idea that it would work like a walkman so visualised it requiring 5 latch switches, 4 push button switches, and a power toggle. ROUGH diagram below:
+
+X = latch switches
+O = push button switches
++++ = screen
+
+|--X------X-------X-------X------X--|
+|-----------------------------------|
+|--O------O-------O-------O---------|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-----------------------------------|
+
+We needed something compact so the Teensy was perfect for this. I found the below code on a youtube video so uploaded it to the Teensy, which I will have to modify later to add more keys:
+#include <keyboard.h>
+//Pin layout here
+const int buttonPin = 1;
+const int buttonPin2 = 4;
+const int buttonPin3 = 6;
+const int buttonPin4 = 9;
+
+int buttonState = 0;
+int buttonState2 = 0;
+int buttonState3 = 0;
+int buttonState4 = 0;
+
+void setup(){
+    pinMode(buttonPin, INPUT_PULLUP);
+    pinMode(buttonPin2, INPUT_PULLUP);
+    pinMode(buttonPin3, INPUT_PULLUP);
+    pinMode(buttonPin4, INPUT_PULLUP);
+}
+
+void loop(){
+  buttonState = digitalRead(buttonPin);
+  buttonState2 = digitalRead(buttonPin2);
+  buttonState3 = digitalRead(buttonPin3);
+  buttonState4 = digitalRead(buttonPin4);
+  //replace key Z with your desired key
+  if (buttonState == LOW){
+    Keyboard.set_key1(KEY_Z);
+    Keyboard.send_now();
+  }
+  if (buttonState == HIGH){
+    Keyboard.set_key1(0);
+    Keyboard.send_now();
+  }
+  if (buttonState2 == LOW){
+    Keyboard.set_key2(KEY_X);
+    Keyboard.send_now();
+  }
+  if (buttonState2 == HIGH){
+    Keyboard.set_key2(0);
+    Keyboard.send_now();
+  }
+  if (buttonState3 == LOW){
+    Keyboard.set_key3(KEY_C);
+    Keyboard.send_now();
+  }
+  if (buttonState3 == HIGH){
+    Keyboard.set_key3(0);
+    Keyboard.send_now();
+  }
+  if (buttonState4 == LOW){
+    Keyboard.set_key4(KEY_A);
+    Keyboard.send_now();
+  }
+  if (buttonState4 == HIGH){
+    Keyboard.set_key4(0);
+    Keyboard.send_now();
+  }
+  delay(2);
+}
+
+
+//Initial setup and timer configuration
+So now I had to program the app to use essentially state switches when a button was held down - as the latch switch operated this way. I set up switch statements to track and change some text to represent the button being depressed.
+Then the timer had to be set up, which took some manoeuvring as it counted the seconds value based on the difference between a repeating global time - the global time at the time I started the timer. The pause functionality had to then be calculated by taking a time value of when it was paused, and a time value when it was unpaused, getting the difference and deducting that from the above ongoing calculation on the timer. It took a while to figure it out but was very satisfying.
