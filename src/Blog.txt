@@ -95,3 +95,6 @@ void loop(){
 //Initial setup and timer configuration
 So now I had to program the app to use essentially state switches when a button was held down - as the latch switch operated this way. I set up switch statements to track and change some text to represent the button being depressed.
 Then the timer had to be set up, which took some manoeuvring as it counted the seconds value based on the difference between a repeating global time - the global time at the time I started the timer. The pause functionality had to then be calculated by taking a time value of when it was paused, and a time value when it was unpaused, getting the difference and deducting that from the above ongoing calculation on the timer. It took a while to figure it out but was very satisfying.
+
+//Stop functionality and saving the time to file (csv)
+The stop functionality came together pretty easily, I wrapped up the resetting of the timer in its own function as it needed to be called for different events. I came across an issue of deprecated tutorials for handling CRUD in electron, so have no solution for it as of yet.
