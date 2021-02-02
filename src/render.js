@@ -75,10 +75,10 @@ function checkKeyPressed(evt) {
 
   //? adding for testing purposes to "unclick" switch/reset state
   else if (evt.keyCode == "13") { //key Enter
-      latchState = "";
       if(timerActive !== ""){
         timerActive = "stop";
       }
+      latchState = "";
       document.getElementById("optionBox").style.visibility = "hidden";
       document.getElementById("timer").style.visibility = "hidden";
   }
@@ -87,6 +87,8 @@ function checkKeyPressed(evt) {
 
   if (latchState !== ""){
     //program back button
+    //figure out just hitting Timer to start the timer
+    //figure out proper reset of timer styles when the latch switch is clicked up (reset function)
 
     if ((evt.keyCode == "49") && (timerActive == "")){//cant change at the moment while timer is active - eventually fix to just have it stop the timer and save it out
       optionState = option1;
@@ -144,6 +146,7 @@ function resetTimer(){
   pauseDiff = 0;
   pauseDiffTotal = 0;
   totalTime = 0;
+  document.getElementById("timer").innerHTML = hours+':'+minutes+':'+seconds;
 }
 
 //concatenate the value that is being amended into the CSV file
@@ -195,6 +198,7 @@ function checkKeyUp(evt) {
 window.setInterval( function(){ //Timer Tracker
   switch (timerActive) {
     case "active":
+      document.getElementById("timer").classList.remove('stoppedTime');
       document.getElementById("timer").classList.remove('blink');
       document.getElementById("timer").classList.add('counting');
       delta = (Date.now() - (start+pauseDiffTotal)); // milliseconds elapsed since start
