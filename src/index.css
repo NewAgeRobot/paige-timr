@@ -17,6 +17,13 @@ body {
   color: white;
 }
 
+nav{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+}
+
 .renderBox {
   display: flex;
   justify-content: center;
@@ -27,10 +34,16 @@ body {
   padding: 0 30px 0 30px;
 }
 
-#stateBox {
+#latchBox {
   font-size: 20px;
   font-weight: 600;
   color: #efa;
+}
+
+#optionBox {
+  font-size: 15px;
+  font-weight: 600;
+  color: #eff;
 }
 
 .counting {

@@ -11,11 +11,18 @@
     <script defer src="render.js"></script>
   </head>
   <body>
+    <nav>
+        College (z) - Work (x) - House (c) - Leisure (a)<br/>
+        Start Timer (1) - Pause (2) - Stop (3) - Reset (Enter)
+    </nav>
     <div class="renderBox">
-      <span id="stateBox">
+      <span id="latchBox">
         Idling
       </span>
-      <span id="timer">
+      <span id="optionBox" style="visibility: hidden;">
+        <span id="option1"></span> - <span id="option2"></span> - <span id="option3"></span>
+      </span>
+      <span id="timer" style="visibility: hidden;">
         00:00:00
       </span>
     </div>
