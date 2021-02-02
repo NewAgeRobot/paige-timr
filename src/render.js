@@ -6,6 +6,7 @@ var pauseTime = 0;
 var unpauseTime = 0;
 var pauseDiff = 0;
 var pauseDiffTotal = 0;
+var totalTime = 0;
 var delta;
 var time;
 var seconds;
@@ -37,14 +38,14 @@ function checkKeyPressed(evt) {
 
   //RECORDING SUB COMMANDS
   if (modeState !== ""){
-    //START TIMER
-    if ((evt.keyCode == "49") && (timerActive == "")) {      //key 1
-      start = Date.now();
+    if ((evt.keyCode == "49") && (timerActive == "")) {      //key 1 START TIMER
       if(modeState !== "" ){
-          timerActive = "active";
+        resetTimer();
+        start = Date.now();
+        timerActive = "active";
       }
     }
-    else if ((evt.keyCode == "50") && ((timerActive = "active")||(timerActive = "pause"))) {      //key 2
+    else if ((evt.keyCode == "50") && ((timerActive == "active")||(timerActive == "pause"))) {      //key 2 PAUSE TIMER
       if(pauseState == 0){
         pauseTime = Date.now();
         pauseState = 1;
@@ -56,11 +57,28 @@ function checkKeyPressed(evt) {
       timerActive = "pause";
     }
 
-    else if ((evt.keyCode == "51") && ((timerActive = "active")||(timerActive = "pause"))) {      //key 2
-      timerActive = "pause";
-      totalTime = document.getElementById("timer").innerHTML();
+    else if ((evt.keyCode == "51") && ((timerActive == "active")||(timerActive == "pause"))) {      //key 2 UNPAUSE TIMER
+      timerActive = "stop";
     }
   }
+}
+
+function resetTimer(){
+  document.getElementById("timer").classList.remove('blink');
+  document.getElementById("timer").classList.remove('stoppedTime');
+  document.getElementById("timer").classList.remove('counting');
+  pauseState = 0;
+  start = 0;
+  delta = 0;
+  time = 0;
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  pauseTime = 0;
+  unpauseTime = 0;
+  pauseDiff = 0;
+  pauseDiffTotal = 0;
+  totalTime = 0;
 }
 
 window.addEventListener("keyup", checkKeyUp, false);
@@ -73,7 +91,7 @@ function checkKeyUp(evt) {
 window.setInterval( function(){ //Timer Tracker
   switch (timerActive) {
     case "active":
-      document.getElementById("timer").classList.remove('blink');
+      document.getElementById("timer").classList.add('counting');
       delta = (Date.now() - (start+pauseDiffTotal)); // milliseconds elapsed since start
       time = (Math.floor(delta / 1000));
       seconds = time % 60 < 10 ? "0"+time % 60: time % 60; // in seconds
@@ -91,7 +109,11 @@ window.setInterval( function(){ //Timer Tracker
       }
       break;
     case "stop":
-
+      totalTime = time;
+      resetTimer();
+      document.getElementById("timer").classList.add('stoppedTime');
+      timerActive = "";
+      //put the write to file code here
       break;
   }
 },100)
