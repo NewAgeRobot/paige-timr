@@ -20,7 +20,7 @@ O = push button switches
 
 |--X------X-------X-------X------X--|
 |-----------------------------------|
-|--O------O-------O-------O---------|
+|------O------O------O-------O------|
 |-+++++++++++++++++++++++++++++++++-|
 |-+++++++++++++++++++++++++++++++++-|
 |-+++++++++++++++++++++++++++++++++-|
@@ -28,6 +28,8 @@ O = push button switches
 |-+++++++++++++++++++++++++++++++++-|
 |-+++++++++++++++++++++++++++++++++-|
 |-+++++++++++++++++++++++++++++++++-|
+|------O------O------O-------O------|
+|-----------------------------------|
 |-----------------------------------|
 
 We needed something compact so the Teensy was perfect for this. I found the below code on a youtube video so uploaded it to the Teensy, which I will have to modify later to add more keys:
@@ -98,3 +100,8 @@ Then the timer had to be set up, which took some manoeuvring as it counted the s
 
 //Stop functionality and saving the time to file (csv)
 The stop functionality came together pretty easily, I wrapped up the resetting of the timer in its own function as it needed to be called for different events. I came across an issue of deprecated tutorials for handling CRUD in electron, so have no solution for it as of yet.
+I looked at the official documentation and it was very easy. I feel silly. I have a lot of solid functionality now so it's time to restructure.
+
+//Reimagining
+We sat down and planned out properly a paper prototype of the experience, rough version here: https://marvelapp.com/prototype/6041187/screen/76608440
+Going to restart and restructure the code at this point before digging too deep. Will have to find out how to pull tasks from both Kanbanflow and Asani API. Never done that before so should be fun, there is good documentation.
