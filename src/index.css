@@ -60,6 +60,11 @@ nav{
   font-style: italic;
 }
 
+.defaultTime{
+  color:white;
+  font-style: normal;
+}
+
 /* get rid of scrollbar after bulma */
 ::-webkit-scrollbar { width: 0px; }
 

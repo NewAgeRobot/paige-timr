@@ -79,8 +79,12 @@ function checkKeyPressed(evt) {
         timerActive = "stop";
       }
       latchState = "";
+      //move down to or separate out stop function.
+      document.getElementById("timer").innerHTML = "00:00:00";
+      document.getElementById("timer").style = "color:white;font-style:normal;";
       document.getElementById("optionBox").style.visibility = "hidden";
       document.getElementById("timer").style.visibility = "hidden";
+      alert("enter key");
   }
 
 
@@ -133,7 +137,6 @@ function checkKeyPressed(evt) {
 function resetTimer(){
   document.getElementById("timer").classList.remove('blink');
   document.getElementById("timer").classList.remove('stoppedTime');
-  document.getElementById("timer").classList.remove('counting');
   pauseState = 0;
   start = 0;
   delta = 0;
@@ -146,7 +149,6 @@ function resetTimer(){
   pauseDiff = 0;
   pauseDiffTotal = 0;
   totalTime = 0;
-  document.getElementById("timer").innerHTML = hours+':'+minutes+':'+seconds;
 }
 
 //concatenate the value that is being amended into the CSV file
@@ -198,7 +200,6 @@ function checkKeyUp(evt) {
 window.setInterval( function(){ //Timer Tracker
   switch (timerActive) {
     case "active":
-      document.getElementById("timer").classList.remove('stoppedTime');
       document.getElementById("timer").classList.remove('blink');
       document.getElementById("timer").classList.add('counting');
       delta = (Date.now() - (start+pauseDiffTotal)); // milliseconds elapsed since start
@@ -225,8 +226,11 @@ window.setInterval( function(){ //Timer Tracker
         console.log('Saved!');
       });
       resetTimer();
-      document.getElementById("timer").classList.add('stoppedTime');
+      document.getElementById("timer").classList.remove('defaultTime');
+      document.getElementById("timer").style = "color:gold;font-style:italic;";
       timerActive = "";
+      alert("stoppppp");
+
       //put the write to file code here
       break;
   }
