@@ -1,0 +1,29 @@
+X = latch switches
+O = push button switches
++++ = screen
+
+|------X------X------X-------X------|
+|-----------------------------------|
+|------O------O------O-------O------|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|-+++++++++++++++++++++++++++++++++-|
+|------O------O------O-------O------|
+|-----------------------------------|
+|-----------------------------------|
+
+
+>App launches
+>Load in all labels from excel file for each Subject and its tasks
+>Load in all Kanbanflow tasks for the Collge Subject
+>Load in all Asani tasks for the Work subject
+>Load in all timer History
+>On homepage show graphs of timers. Filtered by Today by default but allow for filtering by both Subject, and Time range (day,week,month,year)
+>User engages subject button, show list of tasks from either Kanbanflow or Asani, and assign each button the necessary task labels.
+>User selects a task, go to Timer page where user can Play/Pause, Stop, Change to Pomodoro, or go Back to previous screen.
+>If user selects Pomodoro, change the timer from simple counter to specifically timed pomodoro.
+>If at any point user stops the timer, disengages subject switch, or hits back then save current timer progress to excel file with actual date, recorded time, and task assignment information, and revert to either previous screen or homepage as necessary.
