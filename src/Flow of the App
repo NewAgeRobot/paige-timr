@@ -19,8 +19,8 @@ O = push button switches
 
 >App launches
 >Load in all labels from excel file for each Subject and its tasks
->Load in all Kanbanflow tasks for the Collge Subject
->Load in all Asani tasks for the Work subject
+>Load in all Kanbanflow tasks for the College Subject (figure out how to read the api later)
+>Load in all Asani tasks for the Work subject (figure out how to read the api later)
 >Load in all timer History
 >On homepage show graphs of timers. Filtered by Today by default but allow for filtering by both Subject, and Time range (day,week,month,year)
 >User engages subject button, show list of tasks from either Kanbanflow or Asani, and assign each button the necessary task labels.
