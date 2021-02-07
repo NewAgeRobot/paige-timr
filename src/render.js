@@ -64,14 +64,14 @@ function checkKeyPressed(evt) {
         console.log(task7);
         task8 = labelsArray[32];
         console.log(task8);
-        document.getElementById("task1").innerHTML = task1;
-        document.getElementById("task2").innerHTML = task2;
-        document.getElementById("task3").innerHTML = task3;
-        document.getElementById("task4").innerHTML = task4;
-        document.getElementById("task5").innerHTML = task5;
-        document.getElementById("task6").innerHTML = task6;
-        document.getElementById("task7").innerHTML = task7;
-        document.getElementById("task8").innerHTML = task8;
+        document.getElementById("task1").getElementsByClassName("taskLabel")[0].innerHTML = task1;
+        document.getElementById("task2").getElementsByClassName("taskLabel")[0].innerHTML = task2;
+        document.getElementById("task3").getElementsByClassName("taskLabel")[0].innerHTML = task3;
+        document.getElementById("task4").getElementsByClassName("taskLabel")[0].innerHTML = task4;
+        document.getElementById("task5").getElementsByClassName("taskLabel")[0].innerHTML = task5;
+        document.getElementById("task6").getElementsByClassName("taskLabel")[0].innerHTML = task6;
+        document.getElementById("task7").getElementsByClassName("taskLabel")[0].innerHTML = task7;
+        document.getElementById("task8").getElementsByClassName("taskLabel")[0].innerHTML = task8;
     }
     else if (evt.keyCode == "88") { //key X
         subjectState = "Work";
