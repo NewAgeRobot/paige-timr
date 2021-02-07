@@ -1,4 +1,17 @@
 var fs = require('fs');
+const asana = require('asana');
+var asanaCollegeTasksArray = [];
+//1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
+
+const client = asana.Client.create().useAccessToken('1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418');
+
+client.tasks.getTasksForProject('1199906289002007', {param: "value", param: "value", opt_pretty: true})
+    .then((result) => {
+        for(var as = 0; as < result.data.length; as++){
+          asanaCollegeTasksArray[as] = result.data[as].name;
+        }
+        console.log(asanaCollegeTasksArray);
+    });
 
 var labelsImport;
 var labelsArray;
