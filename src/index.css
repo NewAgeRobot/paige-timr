@@ -9,8 +9,7 @@ html {
 
 #contentBox{
     overflow:hidden;
-    margin-left:16px;
-    margin-right:16px;
+    padding:20px 16px 20px 16px;
 }
 
 #container-top{

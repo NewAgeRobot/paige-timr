@@ -5,7 +5,36 @@ var asanaCollegeArray = [];
 var asanaWorkArray = [];
 var asanaHomeArray = [];
 var asanaLifeArray = [];
+var labelsImport;
+var labelsArray;
+var subject1Labels = [];
+var subject2Labels = [];
+var subject3Labels = [];
+var subject4Labels = [];
+
+var labelsLoaded = 0;
+
+var subject1 = "";
+var subject2 = "";
+var subject3 = "";
+var subject4 = "";
+
+var task1 = "";
+var task2 = "";
+var task3 = "";
+var task4 = "";
+var task5 = "";
+var task6 = "";
+var task7 = "";
+var task8 = "";
+
+var subjectState = "";
 //auth token - 1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
+
+//pull in times from CSV
+//run through and add values for each label
+//grab the values for each of the assignments
+
 
 //add tasks to content area
 //add in graphs to homepage
@@ -58,31 +87,8 @@ client.tasks.getTasksForProject('1199909235624487', {param: "value", param: "val
   });
 
 
-var labelsImport;
-var labelsArray;
-var subject1Labels = [];
-var subject2Labels = [];
-var subject3Labels = [];
-var subject4Labels = [];
 
-var labelsLoaded = 0;
-
-var subject1 = "";
-var subject2 = "";
-var subject3 = "";
-var subject4 = "";
-
-var task1 = "";
-var task2 = "";
-var task3 = "";
-var task4 = "";
-var task5 = "";
-var task6 = "";
-var task7 = "";
-var task8 = "";
-
-var subjectState = "";
-
+//read CSV for Labels
 fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', 'utf8' , (err, data) => {
   if (err) {
     console.error(err)
@@ -110,13 +116,9 @@ fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', '
   for(var i = 7; i < labelsArray.length-1;i+=4){
       subject4Labels.push(labelsArray[i]);
   }
-  console.log(subject1Labels);
-  console.log(subject2Labels);
-  console.log(subject3Labels);
-  console.log(subject4Labels);
-
 });
 
+//showLabels function
 function showLabels(){
   document.getElementById("task1").getElementsByClassName("taskLabel")[0].innerHTML = task1;
   document.getElementById("task2").getElementsByClassName("taskLabel")[0].innerHTML = task2;
@@ -136,6 +138,7 @@ function showLabels(){
   document.getElementsByClassName("taskLabel")[7].style = "visibility: visible;background:black;";
 }
 
+//hide Labels function
 function hideLabels(){
   document.getElementById("task1").getElementsByClassName("taskLabel")[0].innerHTML = "";
   document.getElementById("task2").getElementsByClassName("taskLabel")[0].innerHTML = "";
@@ -156,15 +159,14 @@ function hideLabels(){
 }
 
 
-function chartMaker(subject){
+function chartMaker(l,d){
   let myChart = document.getElementById('myChart').getContext('2d');
 
   let massPopChart = new Chart(myChart, {
     type: 'doughnut',
     data:{
-      labels:subject1Labels,
+      labels:l,
       datasets:[{
-        label:'pop',
         data: [
           2.5,
           .7,
@@ -178,7 +180,11 @@ function chartMaker(subject){
         backgroundColor: ['#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd']
       }]
     },
-    options:{}
+    options:{
+      legend: {
+        position: 'right'
+      }
+    }
   });
 }
 
@@ -203,7 +209,7 @@ function checkKeyPressed(evt) {
         task7 = labelsArray[28];
         task8 = labelsArray[32];
         currentSubjecttaskNames =
-        chartMaker(subject1);
+        chartMaker(subject1Labels);
         showLabels();
     }
     else if (evt.keyCode == "88") { //key X
