@@ -1,13 +1,22 @@
 var fs = require('fs');
 const asana = require('asana');
+var Chart = require('chart.js');
 var asanaCollegeArray = [];
 var asanaWorkArray = [];
 var asanaHomeArray = [];
 var asanaLifeArray = [];
 //auth token - 1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
 
+//add tasks to content area
+//add in graphs to homepage
+//add in timer functionality
+//add in button conditions
+
+
+
 const client = asana.Client.create().useAccessToken('1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418');
 
+//store in local excel, have button that pulls down latest
 //College Array Pulldown
 client.tasks.getTasksForProject('1199906289002007', {param: "value", param: "value", opt_pretty: true, opt_fields: 'name, memberships.section.name'})
   .then((result) => {
@@ -51,6 +60,10 @@ client.tasks.getTasksForProject('1199909235624487', {param: "value", param: "val
 
 var labelsImport;
 var labelsArray;
+var subject1Labels = [];
+var subject2Labels = [];
+var subject3Labels = [];
+var subject4Labels = [];
 
 var labelsLoaded = 0;
 
@@ -79,13 +92,29 @@ fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', '
   labelsArray = labelsImport.split(/[\n,]+/);
 
   subject1 = labelsArray[0];
-  subject1 = labelsArray[1];
-  subject1 = labelsArray[2];
-  subject1 = labelsArray[3];
-
-  for(var i = 0;i < labelsArray.length;i++){
-    console.log(i + ' = ' + labelsArray[i]);
+  for(var i = 4; i < labelsArray.length-1;i+=4){
+      subject1Labels.push(labelsArray[i]);
   }
+
+  subject2 = labelsArray[1];
+  for(var i = 5; i < labelsArray.length-1;i+=4){
+      subject2Labels.push(labelsArray[i]);
+  }
+
+  subject3 = labelsArray[2];
+  for(var i = 6; i < labelsArray.length-1;i+=4){
+      subject3Labels.push(labelsArray[i]);
+  }
+
+  subject4 = labelsArray[3];
+  for(var i = 7; i < labelsArray.length-1;i+=4){
+      subject4Labels.push(labelsArray[i]);
+  }
+  console.log(subject1Labels);
+  console.log(subject2Labels);
+  console.log(subject3Labels);
+  console.log(subject4Labels);
+
 });
 
 function showLabels(){
@@ -107,6 +136,56 @@ function showLabels(){
   document.getElementsByClassName("taskLabel")[7].style = "visibility: visible;background:black;";
 }
 
+function hideLabels(){
+  document.getElementById("task1").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementById("task2").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementById("task3").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementById("task4").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementById("task5").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementById("task6").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementById("task7").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementById("task8").getElementsByClassName("taskLabel")[0].innerHTML = "";
+  document.getElementsByClassName("taskLabel")[0].style = "visibility: hidden;background:black;";
+  document.getElementsByClassName("taskLabel")[1].style = "visibility: hidden;background:black;";
+  document.getElementsByClassName("taskLabel")[2].style = "visibility: hidden;background:black;";
+  document.getElementsByClassName("taskLabel")[3].style = "visibility: hidden;background:black;";
+  document.getElementsByClassName("taskLabel")[4].style = "visibility: hidden;background:black;";
+  document.getElementsByClassName("taskLabel")[5].style = "visibility: hidden;background:black;";
+  document.getElementsByClassName("taskLabel")[6].style = "visibility: hidden;background:black;";
+  document.getElementsByClassName("taskLabel")[7].style = "visibility: hidden;background:black;";
+}
+
+
+function chartMaker(subject){
+  let myChart = document.getElementById('myChart').getContext('2d');
+
+  let massPopChart = new Chart(myChart, {
+    type: 'doughnut',
+    data:{
+      labels:subject1Labels,
+      datasets:[{
+        label:'pop',
+        data: [
+          2.5,
+          .7,
+          .7,
+          .7,
+          .7,
+          .7,
+          .7,
+          1.2
+        ],
+        backgroundColor: ['#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd']
+      }]
+    },
+    options:{}
+  });
+}
+
+
+
+
+
 window.addEventListener("keydown", checkKeyPressed, false);
 function checkKeyPressed(evt) {
 
@@ -123,37 +202,49 @@ function checkKeyPressed(evt) {
         task6 = labelsArray[24];
         task7 = labelsArray[28];
         task8 = labelsArray[32];
+        currentSubjecttaskNames =
+        chartMaker(subject1);
         showLabels();
     }
     else if (evt.keyCode == "88") { //key X
-        subjectState = "Work";
-        option1 = "Timer";
-        option2 = "Task Pomodoro";
-        option3 = "History";
-        document.getElementById("option1").innerHTML = option1;
-        document.getElementById("option2").innerHTML = option2;
-        document.getElementById("option3").innerHTML = option3;
-        document.getElementById("optionBox").style.visibility = "visible";
+        subjectState = subject2;
+        task1 = labelsArray[5];
+        task2 = labelsArray[9];
+        task3 = labelsArray[13];
+        task4 = labelsArray[17];
+        task5 = labelsArray[21];
+        task6 = labelsArray[25];
+        task7 = labelsArray[29];
+        task8 = labelsArray[33];
+        showLabels();
     }
     else if (evt.keyCode == "67") { //key C
-        subjectState = "House";
-        option1 = "Timer";
-        option2 = "Pomodoro";
-        option3 = "History";
-        document.getElementById("option1").innerHTML = option1;
-        document.getElementById("option2").innerHTML = option2;
-        document.getElementById("option3").innerHTML = option3;
-        document.getElementById("optionBox").style.visibility = "visible";
+        subjectState = subject3;
+        task1 = labelsArray[6];
+        task2 = labelsArray[10];
+        task3 = labelsArray[14];
+        task4 = labelsArray[18];
+        task5 = labelsArray[22];
+        task6 = labelsArray[26];
+        task7 = labelsArray[30];
+        task8 = labelsArray[34];
+        showLabels();
     }
     else if (evt.keyCode == "65") { //key A
-        subjectState = "Leisure";
-        option1 = "Timer";
-        option2 = "Wank Pomodoro";
-        option3 = "History";
-        document.getElementById("option1").innerHTML = option1;
-        document.getElementById("option2").innerHTML = option2;
-        document.getElementById("option3").innerHTML = option3;
-        document.getElementById("optionBox").style.visibility = "visible";
+        subjectState = subject4;
+        task1 = labelsArray[7];
+        task2 = labelsArray[11];
+        task3 = labelsArray[15];
+        task4 = labelsArray[19];
+        task5 = labelsArray[23];
+        task6 = labelsArray[27];
+        task7 = labelsArray[31];
+        task8 = labelsArray[35];
+        showLabels();
     }
+  }
+  else if (evt.keyCode == "13") {
+    hideLabels();
+    subjectState = "";
   }
 }

@@ -50,29 +50,6 @@ html {
   vertical-align: middle;
 }
 
-#container-bot .tab:nth-child(1){
-  background:#91be6d;
-  border-radius:0px 0px 15px 45px;
-  padding:5px;
-}
-#container-bot .tab:nth-child(2){
-  background:#44aa8c;
-  border-radius:0px 0px 15px 45px;
-  padding:5px;
-}
-
-#container-bot .tab:nth-child(3){
-  background:#57758f;
-  border-radius:0px 0px 15px 45px;
-  padding:5px;
-}
-
-#container-bot .tab:nth-child(4){
-  background:#5093cd;
-  border-radius:0px 0px 15px 45px;
-  padding:5px;
-}
-
 
 #container-top .tab:nth-child(1){
   background:#f94043;
@@ -97,7 +74,28 @@ html {
   padding:5px;
 }
 
+#container-bot .tab:nth-child(1){
+  background:#91be6d;
+  border-radius:0px 0px 15px 45px;
+  padding:5px;
+}
+#container-bot .tab:nth-child(2){
+  background:#44aa8c;
+  border-radius:0px 0px 15px 45px;
+  padding:5px;
+}
 
+#container-bot .tab:nth-child(3){
+  background:#57758f;
+  border-radius:0px 0px 15px 45px;
+  padding:5px;
+}
+
+#container-bot .tab:nth-child(4){
+  background:#5093cd;
+  border-radius:0px 0px 15px 45px;
+  padding:5px;
+}
 
 #task1 .taskLabel:nth-child(1){
   display: inline-block;

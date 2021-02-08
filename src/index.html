@@ -8,6 +8,7 @@
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
         />
+    <script src="..\node_modules\chart.js\dist\Chart.js"></script>
     <script defer src="render.js"></script>
   </head>
   <body>
@@ -22,7 +23,10 @@
       </div>
 
       <div id="container-mid">
-        <div id="contentBox"></div>
+        <div id="contentBox">
+        <canvas id="myChart">
+        </canvas>
+        </div>
       </div>
 
       <div id="container-bot">
