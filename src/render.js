@@ -1,17 +1,27 @@
 var fs = require('fs');
 const asana = require('asana');
+var asanaCollegeSectionsGrab = [];
+var asanaCollegeSectionsArray = [];
 var asanaCollegeTasksArray = [];
-//1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
+var asanaCollegeArray = [];
+//auth token - 1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
 
 const client = asana.Client.create().useAccessToken('1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418');
 
-client.tasks.getTasksForProject('1199906289002007', {param: "value", param: "value", opt_pretty: true})
+//function onlyUnique(value, index, self) {
+//  return self.indexOf(value) === index;
+//}
+//_ = _.filter(onlyUnique);
+
+client.tasks.getTasksForProject('1199906289002007', {param: "value", param: "value", opt_pretty: true, opt_fields: 'name, memberships.section.name'})
     .then((result) => {
-        for(var as = 0; as < result.data.length; as++){
-          asanaCollegeTasksArray[as] = result.data[as].name;
-        }
-        console.log(asanaCollegeTasksArray);
+      console.log(result);
+          for(var taskCounter = 0; taskCounter < result.data.length; taskCounter++){
+            asanaCollegeArray.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
+          }
+        console.table(asanaCollegeArray);
     });
+
 
 var labelsImport;
 var labelsArray;
