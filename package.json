@@ -44,6 +44,7 @@
   "dependencies": {
     "asana": "^0.18.5",
     "chart.js": "^2.9.4",
+    "csv": "^5.3.2",
     "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {

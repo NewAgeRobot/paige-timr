@@ -1,4 +1,5 @@
 var fs = require('fs');
+var parse = require('csv-parse');
 const asana = require('asana');
 var Chart = require('chart.js');
 var asanaCollegeArray = [];
@@ -29,6 +30,8 @@ var task7 = "";
 var task8 = "";
 
 var subjectState = "";
+
+var currentCSVValue = [];
 //auth token - 1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
 
 //pull in times from CSV
@@ -86,7 +89,12 @@ client.tasks.getTasksForProject('1199909235624487', {param: "value", param: "val
       console.table(asanaLifeArray);
   });
 
-
+//pull Timer data into nested array
+fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv', 'utf8' , (err, data) => {
+  parse(data, {columns: false, trim: true}, function(err, rows) {
+  console.table(rows); // Your CSV data is in an array of arrys passed to this callback as rows.
+ })
+})
 
 //read CSV for Labels
 fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', 'utf8' , (err, data) => {
@@ -158,7 +166,7 @@ function hideLabels(){
   document.getElementsByClassName("taskLabel")[7].style = "visibility: hidden;background:black;";
 }
 
-
+//chartmaker, feeding it the subject assignment list and the times
 function chartMaker(l,d){
   let myChart = document.getElementById('myChart').getContext('2d');
 
@@ -182,7 +190,11 @@ function chartMaker(l,d){
     },
     options:{
       legend: {
-        position: 'right'
+        position: 'right',
+        labels: {
+                fontSize: 16,
+                fontColor: '#FFF'
+            }
       }
     }
   });
@@ -191,7 +203,7 @@ function chartMaker(l,d){
 
 
 
-
+//listener for keypresses
 window.addEventListener("keydown", checkKeyPressed, false);
 function checkKeyPressed(evt) {
 
