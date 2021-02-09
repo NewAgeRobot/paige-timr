@@ -385,7 +385,36 @@ console.log(evt.keyCode);
     console.log(activeTask);
     if(subjectState != ""){//if they've entered a subject
       if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
-        console.log("controlling timer");
+        if(timerActive == ""){//if the timer has either been fully stopped or never started
+          resetTimer();
+          start = Date.now();
+          timerActive = "active";
+        }
+        else{ //if the timer IS active and the pause functionality is requested
+          if(pauseState == 0){//pause
+            console.log("play button pushed - timer paused");
+            pauseTime = Date.now();
+            pauseState = 1;
+          }
+          else if(pauseState == 1){//unpause
+            console.log("play button pushed - timer UNpaused");
+            unpauseTime = Date.now();
+            pauseState = 0;
+          }
+          timerActive = "pause";
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         //play.pause functionality
       }
       else{//they're currently on a subject's task select screen
@@ -403,8 +432,10 @@ console.log(evt.keyCode);
   else if (evt.keyCode == "50") { //key 2
     if(subjectState != ""){//if they've entered a subject
       if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
-        console.log("controlling timer");
-        //stop functionality
+        if(timerActive != ""){//if a timer is active
+          console.log("controlling timer");
+          timerActive = "stop";
+        }
       }
       else{//they're currently on a subject's task select screen
         activeTask = task2;
@@ -421,8 +452,12 @@ console.log(evt.keyCode);
   else if (evt.keyCode == "51") { //key 3
     if(subjectState != ""){//if they've entered a subject
       if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
-        console.log("controlling timer");
-        //pomodoro functionality
+        if(timerActive != ""){//if a timer is active
+          console.log("save timer and switch to pomodoro");
+        }
+        else{
+          //switch to pomodoro without saving active timer
+        }
       }
       else{//they're currently on a subject's task select screen
         activeTask = task3;
@@ -439,58 +474,63 @@ console.log(evt.keyCode);
   else if (evt.keyCode == "52") { //key 4
     if(subjectState != ""){//if they've entered a subject
       if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
-        console.log("controlling timer");
-        //back button functionality
-        activeTask = "";
-        document.getElementById("timerBox").style = "display: none;";
-        if (subjectState == subject1) {
-          taskLister(asanaSub1Array);
-          //work in subtasks where necessary
-          task1 = labelsArray[4];
-          task2 = labelsArray[8];
-          task3 = labelsArray[12];
-          task4 = labelsArray[16];
-          task5 = labelsArray[20];
-          task6 = labelsArray[24];
-          task7 = labelsArray[28];
-          task8 = labelsArray[32];
-          showLabels();
+        if(timerActive != ""){//if a timer is active
+          console.log("save timer and switch and go back");
         }
-        else if (subjectState == subject2) {
-          taskLister(asanaSub2Array);
-          task1 = labelsArray[5];
-          task2 = labelsArray[9];
-          task3 = labelsArray[13];
-          task4 = labelsArray[17];
-          task5 = labelsArray[21];
-          task6 = labelsArray[25];
-          task7 = labelsArray[29];
-          task8 = labelsArray[33];
-          showLabels();
-        }
-        else if (subjectState == subject3) {
-          taskLister(asanaSub3Array);
-          task1 = labelsArray[6];
-          task2 = labelsArray[10];
-          task3 = labelsArray[14];
-          task4 = labelsArray[18];
-          task5 = labelsArray[22];
-          task6 = labelsArray[26];
-          task7 = labelsArray[30];
-          task8 = labelsArray[34];
-          showLabels();
-        }
-        else if (subjectState == subject4) {
-          taskLister(asanaSub4Array);
-          task1 = labelsArray[7];
-          task2 = labelsArray[11];
-          task3 = labelsArray[15];
-          task4 = labelsArray[19];
-          task5 = labelsArray[23];
-          task6 = labelsArray[27];
-          task7 = labelsArray[31];
-          task8 = labelsArray[35];
-          showLabels();
+        else{
+          console.log("go back without saving timer");
+          //back button functionality
+          activeTask = "";
+          document.getElementById("timerBox").style = "display: none;";
+          if (subjectState == subject1) {
+            taskLister(asanaSub1Array);
+            //work in subtasks where necessary
+            task1 = labelsArray[4];
+            task2 = labelsArray[8];
+            task3 = labelsArray[12];
+            task4 = labelsArray[16];
+            task5 = labelsArray[20];
+            task6 = labelsArray[24];
+            task7 = labelsArray[28];
+            task8 = labelsArray[32];
+            showLabels();
+          }
+          else if (subjectState == subject2) {
+            taskLister(asanaSub2Array);
+            task1 = labelsArray[5];
+            task2 = labelsArray[9];
+            task3 = labelsArray[13];
+            task4 = labelsArray[17];
+            task5 = labelsArray[21];
+            task6 = labelsArray[25];
+            task7 = labelsArray[29];
+            task8 = labelsArray[33];
+            showLabels();
+          }
+          else if (subjectState == subject3) {
+            taskLister(asanaSub3Array);
+            task1 = labelsArray[6];
+            task2 = labelsArray[10];
+            task3 = labelsArray[14];
+            task4 = labelsArray[18];
+            task5 = labelsArray[22];
+            task6 = labelsArray[26];
+            task7 = labelsArray[30];
+            task8 = labelsArray[34];
+            showLabels();
+          }
+          else if (subjectState == subject4) {
+            taskLister(asanaSub4Array);
+            task1 = labelsArray[7];
+            task2 = labelsArray[11];
+            task3 = labelsArray[15];
+            task4 = labelsArray[19];
+            task5 = labelsArray[23];
+            task6 = labelsArray[27];
+            task7 = labelsArray[31];
+            task8 = labelsArray[35];
+            showLabels();
+          }
         }
       }
       else{//they're currently on a subject's task select screen
@@ -570,6 +610,47 @@ console.log(evt.keyCode);
     }
   }
 }
+
+
+//reset the timers and everything so they're fresh for a new timer to start
+function resetTimer(){
+  document.getElementById("timerBox").classList.remove('blink');
+  document.getElementById("timerBox").classList.remove('stoppedTime');
+  pauseState = 0;
+  start = 0;
+  delta = 0;
+  time = 0;
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  pauseTime = 0;
+  unpauseTime = 0;
+  pauseDiff = 0;
+  pauseDiffTotal = 0;
+  totalTime = 0;
+}
+
+
+window.setInterval( function(){
+  switch (timerActive) {
+    case "active":
+      console.log("timer active");
+      break;
+    case "pause":
+      if(pauseState == 0){//unpaused state
+        console.log("timer interval pause state");
+        timerActive = "active";
+      }
+      else if(pauseState == 1){//paused state
+        console.log("timer paused");
+      }
+      break;
+    case "stop":
+      console.log("timer stopped");
+      timerActive = "";
+      break;
+  }
+},100)
 
 /* commented out for the moment until the assignment states are set up
 function createTimer(){
