@@ -2,10 +2,10 @@ var fs = require('fs');
 var parse = require('csv-parse');
 const asana = require('asana');
 var Chart = require('chart.js');
-var asanaCollegeArray = [];
-var asanaWorkArray = [];
-var asanaHomeArray = [];
-var asanaLifeArray = [];
+var asanaSub1Array = [];
+var asanaSub2Array = [];
+var asanaSub3Array = [];
+var asanaSub4Array = [];
 var labelsImport;
 var labelsArray;
 var subject1Labels = [];
@@ -41,14 +41,25 @@ var subject4ChartTimes = [0,0,0,0,0,0,0,0];
 
 //auth token - 1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
 
-//pull in times from CSV
-//run through and add values for each label
-//grab the values for each of the assignments
-
-
-//add tasks to content area
-//add in graphs to homepage
 //add in timer functionality
+var timerActive = "";
+var pauseState = new Boolean(0);
+var start;
+var pauseTime = 0;
+var unpauseTime = 0;
+var pauseDiff = 0;
+var pauseDiffTotal = 0;
+var totalTime = 0;
+var delta;
+var time;
+var seconds;
+var minutes;
+var hours;
+var currentCSVValue;
+var timerCSVUpdateValue;
+
+
+
 //add in button conditions
 
 
@@ -56,16 +67,16 @@ var subject4ChartTimes = [0,0,0,0,0,0,0,0];
 const client = asana.Client.create().useAccessToken('1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418');
 
 //TO DO: store in local excel, have button that pulls down latest
-//TO DO: try and combine into one query with optional fields to take down all the information - loop through it
+//TO DO: try and combine into one query with optional fields to take down all the information - loop through it - client.projects.getProjects
 
 //College Array Pulldown
 client.tasks.getTasksForProject('1199906289002007', {param: "value", param: "value", opt_pretty: true, opt_fields: 'name, memberships.section.name'})
   .then((result) => {
     console.log(result);
         for(var taskCounter = 0; taskCounter < result.data.length; taskCounter++){
-          asanaCollegeArray.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
+          asanaSub1Array.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
         }
-      console.table(asanaCollegeArray);
+      console.table(asanaSub1Array);
   });
 
 //Work Array Pulldown
@@ -73,9 +84,9 @@ client.tasks.getTasksForProject('1199909235624453', {param: "value", param: "val
   .then((result) => {
     console.log(result);
         for(var taskCounter = 0; taskCounter < result.data.length; taskCounter++){
-          asanaWorkArray.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
+          asanaSub2Array.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
         }
-      console.table(asanaWorkArray);
+      console.table(asanaSub2Array);
   });
 
 //Home Array Pulldown
@@ -83,9 +94,9 @@ client.tasks.getTasksForProject('1199909235624471', {param: "value", param: "val
   .then((result) => {
     console.log(result);
         for(var taskCounter = 0; taskCounter < result.data.length; taskCounter++){
-          asanaHomeArray.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
+          asanaSub3Array.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
         }
-      console.table(asanaHomeArray);
+      console.table(asanaSub3Array);
   });
 
 //Life Array Pulldown
@@ -93,9 +104,9 @@ client.tasks.getTasksForProject('1199909235624487', {param: "value", param: "val
   .then((result) => {
     console.log(result);
         for(var taskCounter = 0; taskCounter < result.data.length; taskCounter++){
-          asanaLifeArray.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
+          asanaSub4Array.push([result.data[taskCounter].memberships[0].section.name,result.data[taskCounter].name]);
         }
-      console.table(asanaLifeArray);
+      console.table(asanaSub4Array);
   });
 
 
@@ -244,13 +255,22 @@ function homepageInit(){
   showLabels();
   subjectChartTimesPrep([subject1,subject2,subject3,subject4],[subject1,subject2,subject3,subject4],allSubjectChartTimes);
   chartMaker([subject1,subject2,subject3,subject4],allSubjectChartTimes);
-  console.log("yay");
+  document.querySelectorAll('.taskItem').forEach(e => e.remove());
 }
 
 
 //show list of asana tasks
+//Have it loop through to see how many sections there are and divide the content into that many columns
 function taskLister(sub){
 console.log(sub);
+  for(var i = 0; i < sub.length;i++){
+    var node = document.createElement("div");
+    node.className = "taskItem";
+    var textNode = document.createTextNode(sub[i][0]+": "+sub[i][1]);
+    node.appendChild(textNode);
+    var content = document.getElementById("contentBox");
+    content.appendChild(node);
+  }
 }
 
 
@@ -264,7 +284,8 @@ function checkKeyPressed(evt) {
     if (evt.keyCode == "90") {      //key Z
         subjectState = subject1;
         document.getElementById("myChart").style = "visibility: hidden;";
-        taskLister(subject1);
+        document.getElementById("myChart").style = "display: none;";
+        taskLister(asanaSub1Array);
         //work in subtasks where necessary
         task1 = labelsArray[4];
         task2 = labelsArray[8];
@@ -279,6 +300,8 @@ function checkKeyPressed(evt) {
     else if (evt.keyCode == "88") { //key X
         subjectState = subject2;
         document.getElementById("myChart").style = "visibility: hidden;";
+        document.getElementById("myChart").style = "display: none;";
+        taskLister(asanaSub2Array);
         task1 = labelsArray[5];
         task2 = labelsArray[9];
         task3 = labelsArray[13];
@@ -292,6 +315,8 @@ function checkKeyPressed(evt) {
     else if (evt.keyCode == "67") { //key C
         subjectState = subject3;
         document.getElementById("myChart").style = "visibility: hidden;";
+        document.getElementById("myChart").style = "display: none;";
+        taskLister(asanaSub3Array);
         task1 = labelsArray[6];
         task2 = labelsArray[10];
         task3 = labelsArray[14];
@@ -305,6 +330,8 @@ function checkKeyPressed(evt) {
     else if (evt.keyCode == "65") { //key A
         subjectState = subject4;
         document.getElementById("myChart").style = "visibility: hidden;";
+        document.getElementById("myChart").style = "display: none;";
+        taskLister(asanaSub4Array);
         task1 = labelsArray[7];
         task2 = labelsArray[11];
         task3 = labelsArray[15];
@@ -338,3 +365,49 @@ function checkKeyPressed(evt) {
   }
 
 }
+
+/* commented out for the moment until the assignment states are set up
+function createTimer(){
+  var timeDiv = document.createElement("div");
+  timeDiv.id = "timer";
+  var contentForTimer = document.getElementById("contentBox");
+  contentForTimer.appendChild(timeDiv);
+}
+
+
+window.setInterval( function(){
+  switch (timerActive) {
+    case "active":
+      document.getElementById("timer").classList.remove('blink');
+      document.getElementById("timer").classList.add('counting');
+      delta = (Date.now() - (start+pauseDiffTotal)); // milliseconds elapsed since start
+      time = (Math.floor(delta / 1000));
+      seconds = time % 60 < 10 ? "0"+time % 60: time % 60; // in seconds
+      minutes = Math.floor(time / 60)< 10 ? "0"+Math.floor(time / 60): Math.floor(time / 60);
+      hours = Math.floor(minutes / 60)< 10 ? "0"+Math.floor(minutes / 60): Math.floor(minutes / 60);
+      document.getElementById("timer").innerHTML = hours+':'+minutes+':'+seconds;
+      break;
+    case "pause":
+      if(pauseState == 0){//unpaused state
+        pauseDiffTotal += (unpauseTime-pauseTime);
+        timerActive = "active";
+      }
+      else if(pauseState == 1){//paused state
+        document.getElementById("timer").classList.add('blink');
+      }
+      break;
+    case "stop":
+      totalTime = time;
+      timerCSVUpdateCalculation();
+      fs.appendFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv',timerCSVUpdateValue,function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+      });
+      resetTimer();
+      document.getElementById("timer").classList.remove('defaultTime');
+      document.getElementById("timer").style = "color:gold;font-style:italic;";
+      timerActive = "";
+      alert("stoppppp");
+      break;
+  }
+},100)*/

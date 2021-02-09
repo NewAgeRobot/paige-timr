@@ -34,6 +34,17 @@ html {
   grid-template-rows: 420px;
   color: white;
 }
+
+.taskItem{
+  color:white;
+  margin:5px;
+  padding: 15px;
+  background: #9c8ade;
+  border-radius: 15px;
+  max-width:150px;
+}
+
+
 #container-bot{
   font-family: 'impactLabel';
   overflow:hidden;
