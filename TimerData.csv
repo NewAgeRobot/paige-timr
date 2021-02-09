@@ -1,25 +1,25 @@
-Date,Day,Task,TimeSpent(s)
-,Tuesday,Leisure,2
-,Tuesday,Work,3
-,Tuesday,Leisure,8
-,Tuesday,Work,2
-,Tuesday,House,7
-,Tuesday,House,2
-,Tuesday,House,2
-,Tuesday,House,16
-,Tuesday,Leisure,7
-,Tuesday,House,0
-,Wednesday,House,25
-,Wednesday,House,2
-,Wednesday,Leisure,2
-,Wednesday,House,2
-,Wednesday,House,1
-,Wednesday,House,0
-,Wednesday,House,3
-,Wednesday,Work,2
-,Thursday,Work,6
-,Thursday,Leisure,2
-,Thursday,House,2
-,Thursday,Leisure,1
-,Thursday,College,1
-,Saturday,Work,9
+Date,Day,Subject,Assignment,TimeSpent(s)
+1,Tuesday,Life,Life 2,2
+1,Tuesday,Work,Work 1,3
+1,Tuesday,Life,Life 2,8
+1,Tuesday,Work,Work 3,2
+1,Tuesday,Home,Home 1,7
+1,Tuesday,Home,Home 1,2
+1,Thursday,College,College 2,4
+1,Thursday,College,College 3,3
+1,Tuesday,Life,Life 7,7
+2,Tuesday,Home,Home 4,0
+3,Wednesday,Home,Home 5,25
+4,Wednesday,Home,Home 4,2
+1,Wednesday,Life,Life 7,2
+1,Wednesday,Home,Home 4,2
+2,Wednesday,Home,Home 1,1
+2,Wednesday,Home,Home 2,0
+3,Wednesday,Home,Home 1,3
+3,Wednesday,Work,Work 3,2
+3,Thursday,Work,Work 3,6
+4,Thursday,Life,Life 7,2
+4,Thursday,Home,Home 4,2
+5,Thursday,Life,Life 2,1
+5,Thursday,College,College 1,1
+5,Saturday,Work,Work 3,9

@@ -31,7 +31,13 @@ var task8 = "";
 
 var subjectState = "";
 
-var currentCSVValue = [];
+var csvTimerArray = [];
+
+var subject1ChartTimes = [0,0,0,0,0,0,0,0]; //filter through all times saved, store ones that match to current subject in this
+var subject2ChartTimes = [0,0,0,0,0,0,0,0];
+var subject3ChartTimes = [0,0,0,0,0,0,0,0];
+var subject4ChartTimes = [0,0,0,0,0,0,0,0];
+
 //auth token - 1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418
 
 //pull in times from CSV
@@ -89,12 +95,22 @@ client.tasks.getTasksForProject('1199909235624487', {param: "value", param: "val
       console.table(asanaLifeArray);
   });
 
+
+
+
+
 //pull Timer data into nested array
 fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv', 'utf8' , (err, data) => {
   parse(data, {columns: false, trim: true}, function(err, rows) {
-  console.table(rows); // Your CSV data is in an array of arrys passed to this callback as rows.
- })
+    csvTimerArray = rows; // Your CSV data is in an array of arrys passed to this callback as rows.
+    console.table(csvTimerArray);
+  })
 })
+
+
+
+
+
 
 //read CSV for Labels
 fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', 'utf8' , (err, data) => {
@@ -175,16 +191,7 @@ function chartMaker(l,d){
     data:{
       labels:l,
       datasets:[{
-        data: [
-          2.5,
-          .7,
-          .7,
-          .7,
-          .7,
-          .7,
-          .7,
-          1.2
-        ],
+        data: d,
         backgroundColor: ['#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd']
       }]
     },
@@ -200,7 +207,20 @@ function chartMaker(l,d){
   });
 }
 
-
+function subjectChartTimesPrep(sub){
+  for(var i = 1; i < csvTimerArray.length;i++){
+    if(csvTimerArray[i][2] == sub){
+      //try and make it subject agnostic/otherwise do if/case statement for each
+      for(var k = 0; k < subject1Labels.length; k++){
+        if(csvTimerArray[i][3] == subject1Labels[k]){
+          var l = parseInt(csvTimerArray[i][4]);
+          subject1ChartTimes[k] += l;
+        }
+      }
+    }
+    //  console.log(csvTimerArray[0][1]);//day
+  }
+}
 
 
 //listener for keypresses
@@ -220,8 +240,8 @@ function checkKeyPressed(evt) {
         task6 = labelsArray[24];
         task7 = labelsArray[28];
         task8 = labelsArray[32];
-        currentSubjecttaskNames =
-        chartMaker(subject1Labels);
+        subjectChartTimesPrep(subject1);
+        chartMaker(subject1Labels,subject1ChartTimes);
         showLabels();
     }
     else if (evt.keyCode == "88") { //key X
