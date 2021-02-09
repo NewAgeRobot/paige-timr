@@ -152,6 +152,29 @@ fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', '
 
 });
 
+function timerLabels(){
+  task1 = "play.pause";
+  task2 = "stop";
+  task3 = "pomodoro";
+  task4 = "back";
+  task5 = "";
+  task6 = "";
+  task7 = "";
+  task8 = "";
+  showLabels();
+}
+function pomodoroLabels(){
+  task1 = "play.pause";
+  task2 = "stop";
+  task3 = "timer";
+  task4 = "back";
+  task5 = "";
+  task6 = "";
+  task7 = "";
+  task8 = "";
+  showLabels();
+}
+
 //showLabels function
 function showLabels(){
   document.getElementById("task1").getElementsByClassName("taskLabel")[0].innerHTML = task1;
@@ -361,11 +384,15 @@ console.log(evt.keyCode);
     console.log(subjectState);
     console.log(activeTask);
     if(subjectState != ""){//if they've entered a subject
-      if(activeTask != ""){//if they've selected a task
+      if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
         console.log("controlling timer");
+        //play.pause functionality
       }
       else{//they're currently on a subject's task select screen
         activeTask = task1;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
         console.log("choosing task");
       }
     }
@@ -375,11 +402,15 @@ console.log(evt.keyCode);
   }
   else if (evt.keyCode == "50") { //key 2
     if(subjectState != ""){//if they've entered a subject
-      if(activeTask != ""){//if they've selected a task
+      if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
         console.log("controlling timer");
+        //stop functionality
       }
       else{//they're currently on a subject's task select screen
         activeTask = task2;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
         console.log("choosing task");
       }
     }
@@ -389,11 +420,15 @@ console.log(evt.keyCode);
   }
   else if (evt.keyCode == "51") { //key 3
     if(subjectState != ""){//if they've entered a subject
-      if(activeTask != ""){//if they've selected a task
+      if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
         console.log("controlling timer");
+        //pomodoro functionality
       }
       else{//they're currently on a subject's task select screen
         activeTask = task3;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
         console.log("choosing task");
       }
     }
@@ -403,11 +438,66 @@ console.log(evt.keyCode);
   }
   else if (evt.keyCode == "52") { //key 4
     if(subjectState != ""){//if they've entered a subject
-      if(activeTask != ""){//if they've selected a task
+      if(activeTask != ""){//if they've selected a task - another if statement for timer or pomodoro?
         console.log("controlling timer");
+        //back button functionality
+        activeTask = "";
+        document.getElementById("timerBox").style = "display: none;";
+        if (subjectState == subject1) {
+          taskLister(asanaSub1Array);
+          //work in subtasks where necessary
+          task1 = labelsArray[4];
+          task2 = labelsArray[8];
+          task3 = labelsArray[12];
+          task4 = labelsArray[16];
+          task5 = labelsArray[20];
+          task6 = labelsArray[24];
+          task7 = labelsArray[28];
+          task8 = labelsArray[32];
+          showLabels();
+        }
+        else if (subjectState == subject2) {
+          taskLister(asanaSub2Array);
+          task1 = labelsArray[5];
+          task2 = labelsArray[9];
+          task3 = labelsArray[13];
+          task4 = labelsArray[17];
+          task5 = labelsArray[21];
+          task6 = labelsArray[25];
+          task7 = labelsArray[29];
+          task8 = labelsArray[33];
+          showLabels();
+        }
+        else if (subjectState == subject3) {
+          taskLister(asanaSub3Array);
+          task1 = labelsArray[6];
+          task2 = labelsArray[10];
+          task3 = labelsArray[14];
+          task4 = labelsArray[18];
+          task5 = labelsArray[22];
+          task6 = labelsArray[26];
+          task7 = labelsArray[30];
+          task8 = labelsArray[34];
+          showLabels();
+        }
+        else if (subjectState == subject4) {
+          taskLister(asanaSub4Array);
+          task1 = labelsArray[7];
+          task2 = labelsArray[11];
+          task3 = labelsArray[15];
+          task4 = labelsArray[19];
+          task5 = labelsArray[23];
+          task6 = labelsArray[27];
+          task7 = labelsArray[31];
+          task8 = labelsArray[35];
+          showLabels();
+        }
       }
       else{//they're currently on a subject's task select screen
         activeTask = task4;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
         console.log("choosing task");
       }
     }
@@ -416,13 +506,12 @@ console.log(evt.keyCode);
     }
   }
   else if (evt.keyCode == "53") { //key 5//add toggle to get back to overall subject chart
-    console.log("blah");
     if(subjectState != ""){//if they've entered a subject
-      if(activeTask != ""){//if they've selected a task
-        console.log("controlling timer");
-      }
-      else{//they're currently on a subject's task select screen
-        activeTask = task4;
+      if(activeTask == ""){//if they've selected a task
+        activeTask = task5;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
         console.log("choosing task");
       }
     }
@@ -433,16 +522,52 @@ console.log(evt.keyCode);
     }
   }
   else if (evt.keyCode == "54") { //key 6
-    subjectChartTimesPrep(subject2,subject2Labels,subject2ChartTimes);
-    chartMaker(subject2Labels,subject2ChartTimes);
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask == ""){//if they've selected a task
+        activeTask = task6;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+        subjectChartTimesPrep(subject2,subject2Labels,subject2ChartTimes);
+        chartMaker(subject2Labels,subject2ChartTimes);
+    }
   }
   else if (evt.keyCode == "55") { //key 7
-    subjectChartTimesPrep(subject3,subject3Labels,subject3ChartTimes);
-    chartMaker(subject3Labels,subject3ChartTimes);
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask == ""){//if they've selected a task
+        activeTask = task7;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+        subjectChartTimesPrep(subject3,subject3Labels,subject3ChartTimes);
+        chartMaker(subject3Labels,subject3ChartTimes);
+    }
   }
   else if (evt.keyCode == "56") { //key 8
-    subjectChartTimesPrep(subject4,subject4Labels,subject4ChartTimes);
-    chartMaker(subject4Labels,subject4ChartTimes);
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask == ""){//if they've selected a task
+        activeTask = task8;
+        timerLabels();
+        document.querySelectorAll('.taskItem').forEach(e => e.remove());
+        document.getElementById("timerBox").style = "display: inline;";
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+        subjectChartTimesPrep(subject4,subject4Labels,subject4ChartTimes);
+        chartMaker(subject4Labels,subject4ChartTimes);
+    }
   }
 }
 

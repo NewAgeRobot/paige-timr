@@ -44,6 +44,9 @@ html {
   max-width:150px;
 }
 
+#timerBox{
+  display:none;
+}
 
 #container-bot{
   font-family: 'impactLabel';
