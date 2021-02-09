@@ -30,6 +30,7 @@ var task7 = "";
 var task8 = "";
 
 var subjectState = "";
+var activeTask = "";
 
 var csvTimerArray = [];
 
@@ -278,92 +279,171 @@ console.log(sub);
 //listener for keypresses
 window.addEventListener("keydown", checkKeyPressed, false);
 function checkKeyPressed(evt) {
-
+console.log(evt.keyCode);
 //Subject Checks
-  if(subjectState == ""){             //to prevent multi-button pressing jumping states
     if (evt.keyCode == "90") {      //key Z
-        subjectState = subject1;
-        document.getElementById("myChart").style = "visibility: hidden;";
-        document.getElementById("myChart").style = "display: none;";
-        taskLister(asanaSub1Array);
-        //work in subtasks where necessary
-        task1 = labelsArray[4];
-        task2 = labelsArray[8];
-        task3 = labelsArray[12];
-        task4 = labelsArray[16];
-        task5 = labelsArray[20];
-        task6 = labelsArray[24];
-        task7 = labelsArray[28];
-        task8 = labelsArray[32];
-        showLabels();
+        if(subjectState == ""){           //to prevent multi-button pressing jumping states
+          subjectState = subject1;
+          document.getElementById("myChart").style = "visibility: hidden;";
+          document.getElementById("myChart").style = "display: none;";
+          taskLister(asanaSub1Array);
+          //work in subtasks where necessary
+          task1 = labelsArray[4];
+          task2 = labelsArray[8];
+          task3 = labelsArray[12];
+          task4 = labelsArray[16];
+          task5 = labelsArray[20];
+          task6 = labelsArray[24];
+          task7 = labelsArray[28];
+          task8 = labelsArray[32];
+          showLabels();
+        }
     }
     else if (evt.keyCode == "88") { //key X
-        subjectState = subject2;
-        document.getElementById("myChart").style = "visibility: hidden;";
-        document.getElementById("myChart").style = "display: none;";
-        taskLister(asanaSub2Array);
-        task1 = labelsArray[5];
-        task2 = labelsArray[9];
-        task3 = labelsArray[13];
-        task4 = labelsArray[17];
-        task5 = labelsArray[21];
-        task6 = labelsArray[25];
-        task7 = labelsArray[29];
-        task8 = labelsArray[33];
-        showLabels();
+        if(subjectState == ""){
+          subjectState = subject2;
+          document.getElementById("myChart").style = "visibility: hidden;";
+          document.getElementById("myChart").style = "display: none;";
+          taskLister(asanaSub2Array);
+          task1 = labelsArray[5];
+          task2 = labelsArray[9];
+          task3 = labelsArray[13];
+          task4 = labelsArray[17];
+          task5 = labelsArray[21];
+          task6 = labelsArray[25];
+          task7 = labelsArray[29];
+          task8 = labelsArray[33];
+          showLabels();
+        }
     }
     else if (evt.keyCode == "67") { //key C
-        subjectState = subject3;
-        document.getElementById("myChart").style = "visibility: hidden;";
-        document.getElementById("myChart").style = "display: none;";
-        taskLister(asanaSub3Array);
-        task1 = labelsArray[6];
-        task2 = labelsArray[10];
-        task3 = labelsArray[14];
-        task4 = labelsArray[18];
-        task5 = labelsArray[22];
-        task6 = labelsArray[26];
-        task7 = labelsArray[30];
-        task8 = labelsArray[34];
-        showLabels();
+        if(subjectState == ""){
+          subjectState = subject3;
+          document.getElementById("myChart").style = "visibility: hidden;";
+          document.getElementById("myChart").style = "display: none;";
+          taskLister(asanaSub3Array);
+          task1 = labelsArray[6];
+          task2 = labelsArray[10];
+          task3 = labelsArray[14];
+          task4 = labelsArray[18];
+          task5 = labelsArray[22];
+          task6 = labelsArray[26];
+          task7 = labelsArray[30];
+          task8 = labelsArray[34];
+          showLabels();
+        }
     }
     else if (evt.keyCode == "65") { //key A
-        subjectState = subject4;
-        document.getElementById("myChart").style = "visibility: hidden;";
-        document.getElementById("myChart").style = "display: none;";
-        taskLister(asanaSub4Array);
-        task1 = labelsArray[7];
-        task2 = labelsArray[11];
-        task3 = labelsArray[15];
-        task4 = labelsArray[19];
-        task5 = labelsArray[23];
-        task6 = labelsArray[27];
-        task7 = labelsArray[31];
-        task8 = labelsArray[35];
-        showLabels();
+        if(subjectState == ""){
+          subjectState = subject4;
+          document.getElementById("myChart").style = "visibility: hidden;";
+          document.getElementById("myChart").style = "display: none;";
+          taskLister(asanaSub4Array);
+          task1 = labelsArray[7];
+          task2 = labelsArray[11];
+          task3 = labelsArray[15];
+          task4 = labelsArray[19];
+          task5 = labelsArray[23];
+          task6 = labelsArray[27];
+          task7 = labelsArray[31];
+          task8 = labelsArray[35];
+          showLabels();
+        }
     }
-    else if (evt.keyCode == "53") { //key 5//add toggle to get back to overall subject chart
-      subjectChartTimesPrep(subject1,subject1Labels,subject1ChartTimes);
-      chartMaker(subject1Labels,subject1ChartTimes);
-    }
-    else if (evt.keyCode == "54") { //key 6
-      subjectChartTimesPrep(subject2,subject2Labels,subject2ChartTimes);
-      chartMaker(subject2Labels,subject2ChartTimes);
-    }
-    else if (evt.keyCode == "55") { //key 7
-      subjectChartTimesPrep(subject3,subject3Labels,subject3ChartTimes);
-      chartMaker(subject3Labels,subject3ChartTimes);
-    }
-    else if (evt.keyCode == "56") { //key 8
-      subjectChartTimesPrep(subject4,subject4Labels,subject4ChartTimes);
-      chartMaker(subject4Labels,subject4ChartTimes);
-    }
-  }
   else if (evt.keyCode == "13") {
-    subjectState = "";
-    homepageInit();
+    if(subjectState != ""){
+      subjectState = "";
+      activeTask = "";
+      homepageInit();
+    }
   }
-
+  else if (evt.keyCode == "49") { //key 1
+    console.log(subjectState);
+    console.log(activeTask);
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask != ""){//if they've selected a task
+        console.log("controlling timer");
+      }
+      else{//they're currently on a subject's task select screen
+        activeTask = task1;
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+    }
+  }
+  else if (evt.keyCode == "50") { //key 2
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask != ""){//if they've selected a task
+        console.log("controlling timer");
+      }
+      else{//they're currently on a subject's task select screen
+        activeTask = task2;
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+    }
+  }
+  else if (evt.keyCode == "51") { //key 3
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask != ""){//if they've selected a task
+        console.log("controlling timer");
+      }
+      else{//they're currently on a subject's task select screen
+        activeTask = task3;
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+    }
+  }
+  else if (evt.keyCode == "52") { //key 4
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask != ""){//if they've selected a task
+        console.log("controlling timer");
+      }
+      else{//they're currently on a subject's task select screen
+        activeTask = task4;
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+    }
+  }
+  else if (evt.keyCode == "53") { //key 5//add toggle to get back to overall subject chart
+    console.log("blah");
+    if(subjectState != ""){//if they've entered a subject
+      if(activeTask != ""){//if they've selected a task
+        console.log("controlling timer");
+      }
+      else{//they're currently on a subject's task select screen
+        activeTask = task4;
+        console.log("choosing task");
+      }
+    }
+    else{//they're currently on the homepage selecting a chart time filter
+        console.log("selecting time filter");
+        subjectChartTimesPrep(subject1,subject1Labels,subject1ChartTimes);
+        chartMaker(subject1Labels,subject1ChartTimes);
+    }
+  }
+  else if (evt.keyCode == "54") { //key 6
+    subjectChartTimesPrep(subject2,subject2Labels,subject2ChartTimes);
+    chartMaker(subject2Labels,subject2ChartTimes);
+  }
+  else if (evt.keyCode == "55") { //key 7
+    subjectChartTimesPrep(subject3,subject3Labels,subject3ChartTimes);
+    chartMaker(subject3Labels,subject3ChartTimes);
+  }
+  else if (evt.keyCode == "56") { //key 8
+    subjectChartTimesPrep(subject4,subject4Labels,subject4ChartTimes);
+    chartMaker(subject4Labels,subject4ChartTimes);
+  }
 }
 
 /* commented out for the moment until the assignment states are set up
