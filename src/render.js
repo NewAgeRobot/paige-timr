@@ -33,6 +33,7 @@ var subjectState = "";
 
 var csvTimerArray = [];
 
+var allSubjectChartTimes = [0,0,0,0];
 var subject1ChartTimes = [0,0,0,0,0,0,0,0]; //filter through all times saved, store ones that match to current subject in this
 var subject2ChartTimes = [0,0,0,0,0,0,0,0];
 var subject3ChartTimes = [0,0,0,0,0,0,0,0];
@@ -54,7 +55,9 @@ var subject4ChartTimes = [0,0,0,0,0,0,0,0];
 
 const client = asana.Client.create().useAccessToken('1/1199906203295061:3e0be57da5c97ebc3ee5d20ec409e418');
 
-//store in local excel, have button that pulls down latest
+//TO DO: store in local excel, have button that pulls down latest
+//TO DO: try and combine into one query with optional fields to take down all the information - loop through it
+
 //College Array Pulldown
 client.tasks.getTasksForProject('1199906289002007', {param: "value", param: "value", opt_pretty: true, opt_fields: 'name, memberships.section.name'})
   .then((result) => {
@@ -98,20 +101,6 @@ client.tasks.getTasksForProject('1199909235624487', {param: "value", param: "val
 
 
 
-
-//pull Timer data into nested array
-fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv', 'utf8' , (err, data) => {
-  parse(data, {columns: false, trim: true}, function(err, rows) {
-    csvTimerArray = rows; // Your CSV data is in an array of arrys passed to this callback as rows.
-    console.table(csvTimerArray);
-  })
-})
-
-
-
-
-
-
 //read CSV for Labels
 fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', 'utf8' , (err, data) => {
   if (err) {
@@ -119,7 +108,7 @@ fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', '
     return
   }
   labelsImport = data;
-  labelsArray = labelsImport.split(/[\n,]+/);
+  labelsArray = labelsImport.split(/[\n,\r]+/);
 
   subject1 = labelsArray[0];
   for(var i = 4; i < labelsArray.length-1;i+=4){
@@ -140,6 +129,15 @@ fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', '
   for(var i = 7; i < labelsArray.length-1;i+=4){
       subject4Labels.push(labelsArray[i]);
   }
+  //pull Timer data into nested array
+  fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv', 'utf8' , (err, data) => {
+    parse(data, {columns: false, trim: true}, function(err, rows) {
+      csvTimerArray = rows; // Your CSV data is in an array of arrys passed to this callback as rows.
+    //  console.table(csvTimerArray);
+      homepageInit();
+    })
+  })
+
 });
 
 //showLabels function
@@ -192,7 +190,7 @@ function chartMaker(l,d){
       labels:l,
       datasets:[{
         data: d,
-        backgroundColor: ['#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd']
+        backgroundColor: ['#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd','#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd','#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd','#f94043', '#f3742d', '#f9961f', '#f9c852', '#91be6d', '#44aa8c', '#57758f', '#5093cd']
       }]
     },
     options:{
@@ -207,20 +205,54 @@ function chartMaker(l,d){
   });
 }
 
-function subjectChartTimesPrep(sub){
-  for(var i = 1; i < csvTimerArray.length;i++){
-    if(csvTimerArray[i][2] == sub){
-      //try and make it subject agnostic/otherwise do if/case statement for each
-      for(var k = 0; k < subject1Labels.length; k++){
-        if(csvTimerArray[i][3] == subject1Labels[k]){
-          var l = parseInt(csvTimerArray[i][4]);
-          subject1ChartTimes[k] += l;
+function subjectChartTimesPrep(sub,labels,times){//expand potential params to accomodate getting every subject into whole new array for homepage/just breakdown of subjects
+
+    for(var i = 1; i < csvTimerArray.length;i++){
+    if(Array.isArray(sub)){
+      for(var p = 0; p < sub.length; p++){
+        if(csvTimerArray[i][2] == sub[p]){
+          var m = parseInt(csvTimerArray[i][4]);
+          times[p] += m;
         }
       }
     }
-    //  console.log(csvTimerArray[0][1]);//day
+    else {
+      if(csvTimerArray[i][2] == sub){
+        for(var k = 0; k < labels.length; k++){
+          if(csvTimerArray[i][3] == labels[k]){
+            var l = parseInt(csvTimerArray[i][4]);
+            times[k] += l;
+          }
+        }
+      }
+    }
   }
 }
+
+
+//homepage initilise
+function homepageInit(){
+  task1 = "Today";
+  task2 = "Week";
+  task3 = "Month";
+  task4 = "Year";
+  task5 = subject1;
+  task6 = subject2;
+  task7 = subject3;
+  task8 = subject4;
+  document.getElementById("myChart").style = "visibility: visible;";
+  showLabels();
+  subjectChartTimesPrep([subject1,subject2,subject3,subject4],[subject1,subject2,subject3,subject4],allSubjectChartTimes);
+  chartMaker([subject1,subject2,subject3,subject4],allSubjectChartTimes);
+  console.log("yay");
+}
+
+
+//show list of asana tasks
+function taskLister(sub){
+console.log(sub);
+}
+
 
 
 //listener for keypresses
@@ -231,6 +263,8 @@ function checkKeyPressed(evt) {
   if(subjectState == ""){             //to prevent multi-button pressing jumping states
     if (evt.keyCode == "90") {      //key Z
         subjectState = subject1;
+        document.getElementById("myChart").style = "visibility: hidden;";
+        taskLister(subject1);
         //work in subtasks where necessary
         task1 = labelsArray[4];
         task2 = labelsArray[8];
@@ -240,12 +274,11 @@ function checkKeyPressed(evt) {
         task6 = labelsArray[24];
         task7 = labelsArray[28];
         task8 = labelsArray[32];
-        subjectChartTimesPrep(subject1);
-        chartMaker(subject1Labels,subject1ChartTimes);
         showLabels();
     }
     else if (evt.keyCode == "88") { //key X
         subjectState = subject2;
+        document.getElementById("myChart").style = "visibility: hidden;";
         task1 = labelsArray[5];
         task2 = labelsArray[9];
         task3 = labelsArray[13];
@@ -258,6 +291,7 @@ function checkKeyPressed(evt) {
     }
     else if (evt.keyCode == "67") { //key C
         subjectState = subject3;
+        document.getElementById("myChart").style = "visibility: hidden;";
         task1 = labelsArray[6];
         task2 = labelsArray[10];
         task3 = labelsArray[14];
@@ -270,6 +304,7 @@ function checkKeyPressed(evt) {
     }
     else if (evt.keyCode == "65") { //key A
         subjectState = subject4;
+        document.getElementById("myChart").style = "visibility: hidden;";
         task1 = labelsArray[7];
         task2 = labelsArray[11];
         task3 = labelsArray[15];
@@ -280,9 +315,26 @@ function checkKeyPressed(evt) {
         task8 = labelsArray[35];
         showLabels();
     }
+    else if (evt.keyCode == "53") { //key 5//add toggle to get back to overall subject chart
+      subjectChartTimesPrep(subject1,subject1Labels,subject1ChartTimes);
+      chartMaker(subject1Labels,subject1ChartTimes);
+    }
+    else if (evt.keyCode == "54") { //key 6
+      subjectChartTimesPrep(subject2,subject2Labels,subject2ChartTimes);
+      chartMaker(subject2Labels,subject2ChartTimes);
+    }
+    else if (evt.keyCode == "55") { //key 7
+      subjectChartTimesPrep(subject3,subject3Labels,subject3ChartTimes);
+      chartMaker(subject3Labels,subject3ChartTimes);
+    }
+    else if (evt.keyCode == "56") { //key 8
+      subjectChartTimesPrep(subject4,subject4Labels,subject4ChartTimes);
+      chartMaker(subject4Labels,subject4ChartTimes);
+    }
   }
   else if (evt.keyCode == "13") {
-    hideLabels();
     subjectState = "";
+    homepageInit();
   }
+
 }
