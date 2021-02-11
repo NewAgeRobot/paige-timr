@@ -62,6 +62,7 @@ var timerCSVUpdateValue;
 
 
 //add in button conditions
+//add in await async functions to everything reading or pulling
 
 
 
@@ -631,22 +632,78 @@ function resetTimer(){
 }
 
 
+//concatenate the value that is being amended into the CSV file
+function timerCSVUpdateCalculation(){
+  fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv', 'utf8' , (err, data) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    currentCSVValue = data;
+    console.log(currentCSVValue);
+  })
+
+  let d = new Date()
+  let day = d.getDay();
+  switch (day){
+    case 0:
+      day = "Sunday";
+      break;
+    case 1:
+      day = "Monday";
+      break;
+    case 2:
+      day = "Tuesday";
+      break;
+    case 3:
+      day = "Wednesday";
+      break;
+    case 4:
+      day = "Thursday";
+      break;
+    case 5:
+      day = "Friday";
+      break;
+    case 6:
+      day = "Saturday";
+      break;
+  }
+  let currentTimeReading = document.getElementById("timerCounter").innerHTML = hours+':'+minutes+':'+seconds;
+  timerCSVUpdateValue = day + "," + subjectState + "," + time + "," + currentTimeReading + "\r\n";
+}
+
+
 window.setInterval( function(){
   switch (timerActive) {
     case "active":
-      console.log("timer active");
+      document.getElementById("timerCounter").classList.remove('blink');
+      document.getElementById("timerCounter").classList.add('counting');
+      delta = (Date.now() - (start+pauseDiffTotal)); // milliseconds elapsed since start
+      time = (Math.floor(delta / 1000));
+      seconds = time % 60 < 10 ? "0"+time % 60: time % 60; // in seconds
+      minutes = Math.floor(time / 60)< 10 ? "0"+Math.floor(time / 60): Math.floor(time / 60);
+      hours = Math.floor(minutes / 60)< 10 ? "0"+Math.floor(minutes / 60): Math.floor(minutes / 60);
+      document.getElementById("timerCounter").innerHTML = hours+':'+minutes+':'+seconds;
       break;
     case "pause":
       if(pauseState == 0){//unpaused state
-        console.log("timer interval pause state");
+        pauseDiffTotal += (unpauseTime-pauseTime);
         timerActive = "active";
       }
       else if(pauseState == 1){//paused state
-        console.log("timer paused");
+        document.getElementById("timerCounter").classList.add('blink');
       }
       break;
     case "stop":
-      console.log("timer stopped");
+      totalTime = time;
+      timerCSVUpdateCalculation();
+      fs.appendFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv',timerCSVUpdateValue,function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+      });
+      resetTimer();
+      document.getElementById("timerCounter").classList.remove('defaultTime');
+      document.getElementById("timerCounter").style = "color:gold;font-style:italic;";
       timerActive = "";
       break;
   }
