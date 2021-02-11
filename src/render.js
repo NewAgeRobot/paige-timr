@@ -244,19 +244,19 @@ function chartMaker(l,d){
 function subjectChartTimesPrep(sub,labels,times){//expand potential params to accomodate getting every subject into whole new array for homepage/just breakdown of subjects
 console.log("borken?")
     for(var i = 1; i < csvTimerArray.length;i++){
-    if(Array.isArray(sub)){
+    if(Array.isArray(sub)){//this handles the initial start up chart
       for(var p = 0; p < sub.length; p++){
-        if(csvTimerArray[i][2] == sub[p]){
-          var m = parseInt(csvTimerArray[i][4]);
+        if(csvTimerArray[i][1] == sub[p]){
+          var m = parseInt(csvTimerArray[i][3]);
           times[p] += m;
         }
       }
     }
-    else {
-      if(csvTimerArray[i][2] == sub){
+    else {//this handles if the subject specific breakdowns where it's matching to tasks rather than just subjects
+      if(csvTimerArray[i][1] == sub){
         for(var k = 0; k < labels.length; k++){
-          if(csvTimerArray[i][3] == labels[k]){
-            var l = parseInt(csvTimerArray[i][4]);
+          if(csvTimerArray[i][2] == labels[k]){
+            var l = parseInt(csvTimerArray[i][3]);
             times[k] += l;
           }
         }
@@ -644,32 +644,11 @@ function timerCSVUpdateCalculation(){
   })
 
   let d = new Date()
-  let day = d.getDay();
-  switch (day){
-    case 0:
-      day = "Sunday";
-      break;
-    case 1:
-      day = "Monday";
-      break;
-    case 2:
-      day = "Tuesday";
-      break;
-    case 3:
-      day = "Wednesday";
-      break;
-    case 4:
-      day = "Thursday";
-      break;
-    case 5:
-      day = "Friday";
-      break;
-    case 6:
-      day = "Saturday";
-      break;
-  }
+  let day = d.getDate();
+  let month = d.getMonth()+1;
+  let year = d.getFullYear();
   let currentTimeReading = document.getElementById("timerCounter").innerHTML = hours+':'+minutes+':'+seconds;
-  timerCSVUpdateValue = day + "," + subjectState + "," + time + "," + currentTimeReading + "\r\n";
+  timerCSVUpdateValue = day + "/" + month + "/" + year + "," + subjectState + "," + activeTask + "," + time + "\r\n";
 }
 
 
