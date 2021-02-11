@@ -242,7 +242,7 @@ function chartMaker(l,d){
 }
 
 function subjectChartTimesPrep(sub,labels,times){//expand potential params to accomodate getting every subject into whole new array for homepage/just breakdown of subjects
-
+console.log("borken?")
     for(var i = 1; i < csvTimerArray.length;i++){
     if(Array.isArray(sub)){
       for(var p = 0; p < sub.length; p++){
