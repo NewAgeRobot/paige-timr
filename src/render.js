@@ -71,6 +71,7 @@ const client = asana.Client.create().useAccessToken('1/1199906203295061:3e0be57d
 //TO DO: store in local excel, have button that pulls down latest
 //TO DO: try and combine into one query with optional fields to take down all the information - loop through it - client.projects.getProjects
 
+
 //College Array Pulldown
 client.tasks.getTasksForProject('1199906289002007', {param: "value", param: "value", opt_pretty: true, opt_fields: 'name, memberships.section.name'})
   .then((result) => {
@@ -146,7 +147,6 @@ fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/Labels.csv', '
   fs.readFile('C:/Users/seanm/OneDrive/Desktop/PaigeTimr/paige-timr/TimerData.csv', 'utf8' , (err, data) => {
     parse(data, {columns: false, trim: true}, function(err, rows) {
       csvTimerArray = rows; // Your CSV data is in an array of arrys passed to this callback as rows.
-    //  console.table(csvTimerArray);
       homepageInit();
     })
   })
